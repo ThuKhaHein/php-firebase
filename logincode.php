@@ -19,8 +19,26 @@ if(isset($_POST['login_btn']))
 
                     $uid = $verifiedIdToken->claims()->get('sub');
 
-                    $_SESSION['verified_user_id'] =$uid;
-                    $_SESSION['idTokenString'] =$idTokenString;
+                    $claims = $auth->getUser($uid)->customClaims;
+                    if(isset($claims['admin']) == true)
+                    {
+                        $_SESSION['verified_admin'] = true;
+                        $_SESSION['verified_user_id'] =$uid;
+                        $_SESSION['idTokenString'] =$idTokenString;
+                    }
+                    elseif(isset($claims['super_admin']) == true)
+                    {
+                        $_SESSION['verified_super_admin'] = true;
+                        $_SESSION['verified_user_id'] =$uid;
+                        $_SESSION['idTokenString'] =$idTokenString;
+                    }
+                    elseif($claims == null)
+                    {
+                        $_SESSION['verified_user_id'] =$uid;
+                        $_SESSION['idTokenString'] =$idTokenString;
+                    }
+
+                    
 
                     $_SESSION['status'] = "Logged in successfully";
                     header('Location: home.php');
