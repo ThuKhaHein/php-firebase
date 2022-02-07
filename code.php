@@ -13,7 +13,7 @@ if(isset($_POST['update_user_profile']))
     $user = $auth->getUser($uid); 
 
     $new_image = $random_no.$profile;
-    $old_image = $user->photUrl;
+    $old_image = $user->photoUrl;
     if($profile != NULL)
     {
         $filename = 'uploads/'.$new_image;
